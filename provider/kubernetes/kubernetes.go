@@ -10,6 +10,9 @@ import (
 	"github.com/rusenask/cron"
 
 	v1 "k8s.io/api/core/v1"
+	
+	// load the gcp plugin (required to authenticate against GKE clusters).
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 
 	"github.com/prometheus/client_golang/prometheus"
 
