@@ -97,7 +97,7 @@ func main() {
 	inCluster := kingpin.Flag("incluster", "use in cluster configuration (defaults to 'true'), use '--no-incluster' if running outside of the cluster").Default("true").Bool()
 	kubeconfig := kingpin.Flag("kubeconfig", "path to kubeconfig (if not in running inside a cluster)").Default(filepath.Join(os.Getenv("HOME"), ".kube", "config")).String()
 	uiDir := kingpin.Flag("ui-dir", "path to web UI static files").Default("www").Envar(EnvUIDir).String()
-	instanceId := kingpin.Flag("instance-id", "identifier for this instance").Default(EnvInstanceID).String()
+	instanceId := kingpin.Flag("instance-id", "identifier for this instance").Default("").Envar(EnvInstanceID).String()
 	kingpin.UsageTemplate(kingpin.CompactUsageTemplate).Version(ver.Version)
 	kingpin.CommandLine.Help = "Automated Kubernetes deployment updates. Learn more on https://keel.sh."
 	kingpin.Parse()
