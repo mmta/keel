@@ -76,6 +76,7 @@ const (
 	EnvHelmTillerNamespace = "TILLER_NAMESPACE" // helm provider
 	EnvHelm3Provider       = "HELM3_PROVIDER"   // helm3 provider
 	EnvUIDir               = "UI_DIR"
+	EnvInstanceID          = "INSTANCE_ID"
 
 	// EnvDefaultDockerRegistryCfg - default registry configuration that can be passed into
 	// keel for polling trigger
@@ -96,7 +97,7 @@ func main() {
 	inCluster := kingpin.Flag("incluster", "use in cluster configuration (defaults to 'true'), use '--no-incluster' if running outside of the cluster").Default("true").Bool()
 	kubeconfig := kingpin.Flag("kubeconfig", "path to kubeconfig (if not in running inside a cluster)").Default(filepath.Join(os.Getenv("HOME"), ".kube", "config")).String()
 	uiDir := kingpin.Flag("ui-dir", "path to web UI static files").Default("www").Envar(EnvUIDir).String()
-
+	instanceId := kingpin.Flag("instance-id", "identifier for this instance").Default(EnvInstanceID).String()
 	kingpin.UsageTemplate(kingpin.CompactUsageTemplate).Version(ver.Version)
 	kingpin.CommandLine.Help = "Automated Kubernetes deployment updates. Learn more on https://keel.sh."
 	kingpin.Parse()
@@ -112,6 +113,10 @@ func main() {
 
 	if os.Getenv(EnvDebug) == "true" {
 		log.SetLevel(log.DebugLevel)
+	}
+
+	if instanceId != nil {
+		types.InstanceId = *instanceId
 	}
 
 	dataDir := "/data"

@@ -63,6 +63,9 @@ const KeelApprovalDeadlineDefault = 24
 // KeelReleasePage - optional release notes URL passed on with notification
 const KeelReleaseNotesURL = "keel.sh/releaseNotes"
 
+// InstanceId - default instance identifier used to prepend notification message
+var InstanceId = ""
+
 // Repository - represents main docker repository fields that
 // keel cares about
 type Repository struct {
@@ -241,25 +244,29 @@ const (
 )
 
 func (n Notification) String() string {
+	var instLabel = InstanceId
+	if instLabel != "" {
+		instLabel = instLabel + ": "
+	}
 	switch n {
 	case PreProviderSubmitNotification:
-		return "pre provider submit"
+		return instLabel + "pre provider submit"
 	case PostProviderSubmitNotification:
-		return "post provider submit"
+		return instLabel + "post provider submit"
 	case NotificationPreDeploymentUpdate:
-		return "preparing deployment update"
+		return instLabel + "preparing deployment update"
 	case NotificationDeploymentUpdate:
-		return "deployment update"
+		return instLabel + "deployment update"
 	case NotificationPreReleaseUpdate:
-		return "preparing release update"
+		return instLabel + "preparing release update"
 	case NotificationReleaseUpdate:
-		return "release update"
+		return instLabel + "release update"
 	case NotificationSystemEvent:
-		return "system event"
+		return instLabel + "system event"
 	case NotificationUpdateApproved:
-		return "update approved"
+		return instLabel + "update approved"
 	case NotificationUpdateRejected:
-		return "update rejected "
+		return instLabel + "update rejected "
 	default:
 		return "unknown"
 	}
